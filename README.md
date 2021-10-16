@@ -1,9 +1,9 @@
-# [TDD MOOC](https://tdd-mooc.luontola.fi/): Full-stack web app
+# [TDD MOOC](https://tdd.mooc.fi): Full-stack web app
 
 This is a project template for writing a full-stack web app. Here is just some basic Docker and Nginx configuration. The
 rest is up to you. Just develop everything using TDD.
 
-You should use the [walking skeleton](https://tdd-mooc.luontola.fi/3-challenges#walking-skeleton) approach to start
+You should use the [walking skeleton](https://tdd.mooc.fi/3-challenges#walking-skeleton) approach to start
 developing the application. Even this project template, empty though it may be, was done that way.
 
 Focus on writing tests on every level of the stack:
@@ -13,11 +13,11 @@ Focus on writing tests on every level of the stack:
 - focused integration tests for the database and API layers
 - one (1) end-to-end test against a fully deployed application (e.g. Docker containers running locally) to make sure
   that things are connected correctly (start with this -
-  see [walking skeleton](https://tdd-mooc.luontola.fi/3-challenges#walking-skeleton))
+  see [walking skeleton](https://tdd.mooc.fi/3-challenges#walking-skeleton))
 
 ---
 
-_This exercise is part of the [TDD MOOC](https://tdd-mooc.luontola.fi/) at the University of Helsinki, brought to you
+_This exercise is part of the [TDD MOOC](https://tdd.mooc.fi) at the University of Helsinki, brought to you
 by [Esko Luontola](https://twitter.com/EskoLuontola) and [Nitor](https://nitor.com/)._
 
 ## Prerequisites
