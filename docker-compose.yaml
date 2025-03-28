@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: webapp-frontend
     environment:
-      API_URL: http://api:80
+      API_URL: http://api:4000
     mem_reservation: 10m
     mem_limit: 20m
     ports:
