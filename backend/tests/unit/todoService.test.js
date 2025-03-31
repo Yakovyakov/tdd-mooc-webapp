@@ -50,5 +50,31 @@ describe('TodoService - Unit test', () => {
   
   });
 
+  describe("addTodo", () => {
+    test('should be create a task "completed: false"', async () => {
+    
+      mockModel.create.mockResolvedValue({
+        id: 1,
+        title: 'ToDo 1',
+        completed: false
+      });
+      
+      const result = await service.addTodo({ title: 'ToDo 1' });
+      
+      expect(mockModel.create).toHaveBeenCalledWith({
+        title: 'ToDo 1',
+      });
+      
+      expect(result.completed).toBe(false);
+    });
+  
+    test('error if title is empty', async () => {
+      await expect(service.addTodo({}))
+        .rejects
+        .toThrow('Title is required');
+    });
+  
+  });
+
 
 });
