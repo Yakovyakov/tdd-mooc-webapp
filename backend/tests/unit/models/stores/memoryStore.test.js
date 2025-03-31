@@ -50,4 +50,20 @@ describe('MemoryStore', () => {
   
   });
 
+  describe('MemoryStore-create', () =>{
+
+    test('create() can create a todo', async () => {
+      const todo1 = await store.create({ title: 'ToDo 1' });
+      expect(todo1.id).toBe(1);
+      expect(todo1.title).toBe('ToDo 1');
+      expect(todo1.completed).toBe(false);
+  
+    });
+    test('create() generates incremental IDs', async () => {
+      const todo1 = await store.create({ title: 'ToDo 1' });
+      const todo2 = await store.create({ title: 'ToDo 2' });
+      expect(todo2.id).toBe(todo1.id + 1);
+    });
+  });
+
 });
