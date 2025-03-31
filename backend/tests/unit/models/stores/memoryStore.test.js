@@ -15,6 +15,8 @@ describe('MemoryStore', () => {
     });
 
     test('getAll(), if non empty return all Todo', async () => {
+      
+      // inject some data
 
       store.todos = [
         {id: 1, title: 'ToDo 1', completed: false, archived: false},
@@ -32,6 +34,8 @@ describe('MemoryStore', () => {
 
     test('getAll(), if non empty return all Todo except archived = true', async () => {
 
+      // inject some data
+      
       store.todos = [
         {id: 1, title: 'ToDo 1', completed: false, archived: false},
         {id: 2, title: 'ToDo 2', completed: true, archived: true},
