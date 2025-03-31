@@ -4,8 +4,6 @@ class MemoryStore {
     this.currentId = 1;
   }
 
-
-  
   async getAll() {
     return this.todos
       .filter(todo => !todo.archived)
@@ -16,6 +14,18 @@ class MemoryStore {
         // not includes 'archived' = true!
       }));
   }
+
+  async create(todo) {
+    const newTodo = {
+      id: this.currentId++,
+      title: todo.title,
+      completed: todo.completed || false,
+      archived: false
+    };
+    this.todos.push(newTodo);
+    return ({ id: newTodo.id, title: newTodo.title, completed: newTodo.completed })
+  }
+
 }
   
 module.exports = MemoryStore;
