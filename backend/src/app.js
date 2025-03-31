@@ -1,9 +1,16 @@
 const express = require('express');
+
+const { checkConnection } = require('./config/db');
+
 const app = express();
 
-app.get('/api/health', (req, res) => {
+app.get('/api/health', async (req, res) => {
+  const dbStatus = await checkConnection();
+  console.log('connectResult: ', dbStatus);
+
   res.json({
     status: 'OK',
+    dbStatus: dbStatus ? "connected" : "disconnected", 
     timestamp: new Date().toISOString()
   });
 });
