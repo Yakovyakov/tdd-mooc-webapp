@@ -8,6 +8,17 @@ class TodoService {
     return this.model.getAll();
   }
 
+  async addTodo(todo) {
+    if (!todo.title) {
+      throw new Error('Title is required');
+    }
+    
+    return this.model.create({
+      title: todo.title,
+    });
+  }
+
 }
+
 
 module.exports = TodoService;
