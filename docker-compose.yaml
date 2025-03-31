@@ -18,11 +18,13 @@ services:
       dockerfile: Dockerfile
     image: webapp-backend
     environment:
-      DATABASE_URL: jdbc:postgresql://db:5432/webapp?user=webapp&password=secret
+      DATABASE_URL: postgresql://db:5432/webapp?user=webapp&password=secret
     mem_reservation: 100m
     mem_limit: 200m
     ports:
       - "127.0.0.1:8081:80"
+    depends_on:
+      - db
 
   db:
     image: postgres:13
