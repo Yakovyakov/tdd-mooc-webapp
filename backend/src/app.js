@@ -6,7 +6,7 @@ const app = express();
 
 app.get('/api/health', async (req, res) => {
   const dbStatus = await checkConnection();
-  console.log('connectResult: ', dbStatus);
+  
 
   res.json({
     status: 'OK',
