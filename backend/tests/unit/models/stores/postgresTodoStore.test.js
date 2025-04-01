@@ -40,15 +40,38 @@ describe('PostgresTodoStore', () => {
     });
 
     test('should return an empty array if not ToDo', async () => {
-      // mock return empty array
+      // mock return some data
+      const mockTodos = [];
+  
+      // mock db.query
       mockDb.query.mockResolvedValueOnce({
-        rows: []
+        rows: mockTodos
       });
   
       const result = await postgresTodoStore.getAll();
   
       expect(result).toEqual([]);
       expect(mockDb.query).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Postgress - create()', () =>{
+
+    test('create() can create a todo', async () => {
+      // mock return some data insert
+      const mockTodo = { id: 1, title: 'ToDo 1', completed: false };
+  
+      // mock db.query
+      mockDb.query.mockResolvedValueOnce({
+        rows: mockTodo
+      });
+      
+      const result = await postgresTodoStore.create({ title: 'ToDo 1' });
+      
+      expect(result.id).toBe(1);
+      expect(result.title).toBe('ToDo 1');
+      expect(result.completed).toBe(false);
+  
     });
   });
 
