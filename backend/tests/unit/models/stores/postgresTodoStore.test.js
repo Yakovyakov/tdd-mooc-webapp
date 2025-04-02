@@ -59,7 +59,7 @@ describe('PostgresTodoStore', () => {
 
     test('create() can create a todo', async () => {
       // mock return some data insert
-      const mockTodo = { id: 1, title: 'ToDo 1', completed: false };
+      const mockTodo = [{ id: 1, title: 'ToDo 1', completed: false }];
   
       // mock db.query
       mockDb.query.mockResolvedValueOnce({
