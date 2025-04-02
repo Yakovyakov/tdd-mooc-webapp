@@ -6,6 +6,7 @@ class TodoController {
   async getTodos(req, res) {
     try {
       const todos = await this.service.getAllTodo();
+      console.log(todos);
       res.status(200).json(todos);
     } catch (error) {
       res.status(500).json({ error: error.message });
