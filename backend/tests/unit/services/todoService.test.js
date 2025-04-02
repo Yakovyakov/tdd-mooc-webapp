@@ -1,6 +1,6 @@
 // TODO: TDD
 
-const TodoService = require('../../src/services/todoService');
+const TodoService = require('../../../src/services/todoService');
 
 describe('TodoService - Unit test', () => {
   let service, mockModel;
