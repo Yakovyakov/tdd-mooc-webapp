@@ -1,11 +1,12 @@
+import Footer from "./components/Footer"
+import TodoView from "./components/TodoView"
 
 const App = () => {
 
   return (
     <>
-      <div>
-        <h1>Hello World!</h1>
-      </div>
+      <TodoView />
+      <Footer />
     </>
   )
 }
