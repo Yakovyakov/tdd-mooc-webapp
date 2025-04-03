@@ -7,7 +7,7 @@ describe('Form component tests, create a Todo', () => {
   test('can calls onSubmit', async () => {
     const createTodo = vi.fn()
     const user = userEvent.setup()
-    render(<TodoForm createTodo = {createTodo} />).container
+    render(<TodoForm createTodo = {createTodo} />)
 
     const titleInput = screen.getByRole('textbox')
     
