@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const bodyParser = require('body-parser');
 
@@ -14,13 +15,16 @@ const todoRoutes = require('./routes/todoRoutes');
 
 const app = express();
 
+app.use(cors());
+app.use(bodyParser.json());
+
 const postgressTodoStore = new PostgresTodoStore(pool);
 const todoModel = new Todo(postgressTodoStore);
 const todoService = new TodoService(todoModel);
 const todoController = new TodoController(todoService);
-// Configurar rutas
+// config routes
 
-app.use(bodyParser.json());
+
 app.use('/todos', todoRoutes(todoController));
 
 app.get('/api/health', async (req, res) => {
