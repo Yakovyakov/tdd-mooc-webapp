@@ -6,14 +6,10 @@ const TodoList = ({ todos }) => {
   return (
     <>
       {
-        todos.map((todo, index) => (
+        todos.map(todo => (
             <React.Fragment key={todo.id}>
+              <hr key={`separator-${todo.id}`} />
               <Todo todo={todo} />
-              {
-                index < todos.length - 1 && (
-                  <hr key={`separator-${todo.id}`} />
-                )
-              }
             </React.Fragment>
         ))
       }
