@@ -21,6 +21,7 @@ describe('API Routes (with Mocks)', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+  
   afterEach(() => {
     jest.clearAllMocks();
   });
