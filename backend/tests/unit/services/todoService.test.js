@@ -11,6 +11,7 @@ describe('TodoService - Unit test', () => {
       create: jest.fn(),
       update: jest.fn(),
       getAll: jest.fn(),
+      getById: jest.fn()
     };
     service = new TodoService(mockModel);
   });
@@ -76,5 +77,24 @@ describe('TodoService - Unit test', () => {
   
   });
 
+  describe("updateTodo", () => {
+    test('can update completed field', async () => {
+    
+      mockTodo = { id: 1, title: 'ToDo 1', completed: false }
+      mockModel.getById.mockResolvedValue(mockModel);
+      mockModel.update.mockResolvedValue({ ...mockTodo, completed: true });
+      let result = await service.updateTodo(1, { completed: true });
+      expect(result.completed).toBe(true);
+    });
+  
+    test('error if todo not found', async () => {
+      const nonExistenId = 999;
+      mockModel.getById.mockResolvedValue(null);
+      await expect(service.updateTodo(nonExistenId, { completed: true }))
+        .rejects
+        .toThrow('Todo not found');
+    });
+  
+  });
 
 });
