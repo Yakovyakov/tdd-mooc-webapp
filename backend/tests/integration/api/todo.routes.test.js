@@ -45,4 +45,44 @@ describe('API Routes (with Mocks)', () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual([{ id: 1, title: 'Mocked Todo', completed: false }]);
   });
+
+  describe('PATCH /todos/:id Generic Update', () => {
+    test('PATCH can update complete field, should return 200 with updated Todo', async () => {
+      mockService.updateTodo.mockResolvedValue({ id: 1, title: 'Mocked Todo', completed: true });
+      
+      const response = await request(app)
+        .patch('/todos/1')
+        .send({ completed: true });
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ id: 1, title: 'Mocked Todo', completed: true });
+    });
+  
+    test('PATCH if does not exist a Todo should return status code 404', async () => {
+      mockService.updateTodo.mockRejectedValue(
+        new Error("Todo not found")
+      );
+      
+      const response = await request(app)
+        .patch('/todos/1')
+        .send({ completed: true });
+      
+      expect(response.status).toBe(404);
+      expect(response.body).toEqual({ error: 'Todo not found' });
+    });
+
+
+    test('PATCH if not valid fields, should return status code 400', async () => {
+      mockService.updateTodo.mockRejectedValue(
+        new Error("No valid fields to update")
+      );
+      
+      const response = await request(app)
+        .patch('/todos/1')
+        .send({ invalidField: true });
+      
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: 'No valid fields to update' });
+    });
+  });
 });
