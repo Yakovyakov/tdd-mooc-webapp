@@ -95,7 +95,7 @@ describe('PostgresTodoStore', () => {
       expect(mockDb.query).toHaveBeenCalledTimes(1);
       const [actualSql] = mockDb.query.mock.calls[0];
       const normalizedActual = actualSql.replace(/\s+/g, ' ').trim();
-      const expectedSql = 'SELECT id, title, completed FROM todos WHERE id = $1';
+      const expectedSql = 'SELECT id, title, completed FROM todos WHERE id = $1 AND archived != true';
       expect(normalizedActual).toBe(expectedSql);
       
     });
@@ -114,6 +114,31 @@ describe('PostgresTodoStore', () => {
       expect(result).toEqual(null);
       expect(mockDb.query).toHaveBeenCalledTimes(1);
     });
+  });
+
+  describe('PostgresTodoStore - update', () => {
+    
+    test('can update completed field', async () => {
+      // mock return some data
+      const mockTodos = [{ id: 1, title: 'ToDo 1', completed: true }]
+      ;
+      const existenId = 1;
+      // mock db.query
+      mockDb.query.mockResolvedValueOnce({
+        rows: mockTodos
+      });
+      
+      const result = await postgresTodoStore.update(existenId, { completed: true });
+      expect(result.id).toBe(1);
+      expect(result.title).toBe('ToDo 1');
+      expect(result.completed).toBe(true);
+      
+      expect(mockDb.query).toHaveBeenCalledTimes(1);
+      const [actualSql] = mockDb.query.mock.calls[0];
+      const normalizedActual = actualSql.replace(/\s+/g, ' ').trim();
+      
+    });
+
   });
 
 });
