@@ -14,6 +14,16 @@ class PostgresTodoStore {
     return result.rows;
   }
 
+  async getById(id) {
+    const { rows } = await this.db.query(`
+      SELECT id, title, completed
+      FROM todos
+      WHERE id = $1`,
+      [id],
+    );
+    return rows.map(this.#rowToTodo)[0] || null;
+  }
+
   async create({ title }) {
     const { rows }  = await this.db.query(
       'INSERT INTO todos (title) VALUES ($1) RETURNING id, title, completed',
