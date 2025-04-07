@@ -55,7 +55,7 @@ describe('PostgresTodoStore', () => {
     });
   });
 
-  describe('PostgressTodoStore - create()', () =>{
+  describe('PostgressTodoStore - create', () =>{
 
     test('create() can create a todo', async () => {
       // mock return some data insert
