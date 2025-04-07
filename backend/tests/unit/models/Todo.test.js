@@ -1,7 +1,7 @@
 const Todo = require('../../../src/models/Todo');
 const MemoryStore = require('../../../src/models/stores/memoryStore');
 
-describe('Todo Model Unit Tests (Memory Store)', () => {
+describe('Todo Model Unit Tests (with Memory Store)', () => {
   let todoModel;
   let memoryStore;
 
@@ -78,6 +78,33 @@ describe('Todo Model Unit Tests (Memory Store)', () => {
       const result = await todoModel.getById(notExistenId);
       expect(result).toEqual(null);
     });
+  });
+
+  describe('update', () => {
+    it('can update completed field', async () => {
+      const todo1 = await todoModel.create({ title: 'Todo 1' });
+      expect(todo1.completed).toEqual(false);
+
+      const existenId = 1;
+      const result = await todoModel.update(existenId, { completed: true });
+      expect(result.completed).toEqual(true);
+      expect(result.id).toEqual(existenId);
+      expect(result.title).toEqual('Todo 1');
+      expect(result).not.toHaveProperty('archived');
+
+    });
+    test('can not update if not valid fields', async () => {
+      const todo1 = await todoModel.create({ title: 'Todo 1' });
+      expect(todo1.completed).toEqual(false);
+
+      const existenId = 1;
+
+      await expect(todoModel.update(existenId, { invalidFields: true }))
+        .rejects
+        .toThrow('No valid fields to update');
+    });
+
+
   });
 
 });
