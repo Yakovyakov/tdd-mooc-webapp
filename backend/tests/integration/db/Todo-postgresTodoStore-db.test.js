@@ -146,4 +146,43 @@ describe('TodoModel + PostgresTodoStore (Integration test)', () => {
     });
 
   });
+
+  describe('update', () => {
+    test('You can update the completed field in a TODO in the DB.', async () => {
+    
+      let todos = await model.getAll();
+      
+      expect(todos.length).toBe(0);
+      expect(todos).toEqual([]);
+      // inject some data in DB
+      await pool.query(`
+        INSERT INTO todos (title, completed, archived) 
+        VALUES ('ToDo 1', false, false)
+      `);
+
+      let query = await pool.query(`
+        SELECT id, title, completed, archived
+        FROM todos
+      `);
+
+      query = await pool.query(`
+        SELECT id, title, completed, archived
+        FROM todos
+      `);
+      const firstTodo = query.rows[0];
+      const existenId = firstTodo.id;
+      
+      const updated = await model.update(existenId, { completed: true });
+      expect(updated.id).toEqual(existenId);
+      expect(updated.title).toEqual('ToDo 1');
+      expect(updated.completed).toEqual(true);
+      expect(updated).not.toHaveProperty('archived');
+
+      // verify consistence
+      const { rows } = await store.db.query(`SELECT * FROM todos WHERE id = ${existenId}`);
+      expect(rows[0].title).toBe('ToDo 1');
+      expect(rows[0].completed).toEqual(true);
+    });
+  });
+
 });
