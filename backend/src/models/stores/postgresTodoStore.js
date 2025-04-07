@@ -18,7 +18,7 @@ class PostgresTodoStore {
     const { rows } = await this.db.query(`
       SELECT id, title, completed
       FROM todos
-      WHERE id = $1`,
+      WHERE id = $1 AND archived != true`,
       [id],
     );
     return rows.map(this.#rowToTodo)[0] || null;
