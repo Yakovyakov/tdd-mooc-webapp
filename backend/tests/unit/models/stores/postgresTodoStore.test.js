@@ -55,7 +55,7 @@ describe('PostgresTodoStore', () => {
     });
   });
 
-  describe('Postgress - create()', () =>{
+  describe('PostgressTodoStore - create()', () =>{
 
     test('create() can create a todo', async () => {
       // mock return some data insert
@@ -72,6 +72,47 @@ describe('PostgresTodoStore', () => {
       expect(result.title).toBe('ToDo 1');
       expect(result.completed).toBe(false);
   
+    });
+  });
+
+  describe('PostgresTodoStore - getById', () => {
+    
+    test('can find a Todo by Id', async () => {
+      // mock return some data
+      const mockTodos = [{ id: 1, title: 'ToDo 1', completed: false }]
+      ;
+      const existenId = 1;
+      // mock db.query
+      mockDb.query.mockResolvedValueOnce({
+        rows: mockTodos
+      });
+      
+      const result = await postgresTodoStore.getById(existenId);
+      expect(result.id).toBe(1);
+      expect(result.title).toBe('ToDo 1');
+      expect(result.completed).toBe(false);
+      
+      expect(mockDb.query).toHaveBeenCalledTimes(1);
+      const [actualSql] = mockDb.query.mock.calls[0];
+      const normalizedActual = actualSql.replace(/\s+/g, ' ').trim();
+      const expectedSql = 'SELECT id, title, completed FROM todos WHERE id = $1';
+      expect(normalizedActual).toBe(expectedSql);
+      
+    });
+
+    test('can not find a Todo if it does not exist, should return null', async () => {
+      // mock return some data
+      const mockTodos = [];
+      const nonExistenId = 999;
+      // mock db.query
+      mockDb.query.mockResolvedValueOnce({
+        rows: mockTodos
+      });
+  
+      const result = await postgresTodoStore.getById(nonExistenId);
+  
+      expect(result).toEqual(null);
+      expect(mockDb.query).toHaveBeenCalledTimes(1);
     });
   });
 
