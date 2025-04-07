@@ -4,6 +4,14 @@ class MemoryStore {
     this.currentId = 1;
   }
 
+  async getById(id) {
+    const todo = this.todos.find((todo) => todo.id === id && todo.archived === false)
+    if (!todo) return null;
+
+    const { archived, ...todoWithoutArchived } = todo;
+
+    return todoWithoutArchived;
+  }
   async getAll() {
     return this.todos
       .filter(todo => !todo.archived)
