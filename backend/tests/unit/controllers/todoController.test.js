@@ -58,4 +58,42 @@ describe('TodoController', () => {
       expect(mockRes.json).toHaveBeenCalledWith({ error: 'Title is required' });
     });
   });
+
+  // PATCH /todos:id
+  describe('genericUpdate', () => {
+    it('can update completed field should return status code 200 and an updated ToDo', async () => {
+      const mockTodo = { id: 1, title: 'Todo Test', completed: true };
+      mockService.updateTodo.mockResolvedValue(mockTodo);
+      const existenId = 1;
+      const mockReq = { params: 123, body: { completed: true }};
+      await controller.genericUpdate(mockReq, mockRes);
+
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith(mockTodo);
+    });
+
+    it('should return status code 404 if Todo not found', async () => {
+      mockService.updateTodo.mockRejectedValue(
+        new Error("Todo not found")
+      );
+      const fakeId = 999;
+      const mockReq = { params: fakeId, body: { completed: true }};
+      await controller.genericUpdate(mockReq, mockRes); 
+
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Todo not found' });
+    });
+
+    it('should return status code 400 if not valid field to update', async () => {
+      mockService.updateTodo.mockRejectedValue(
+        new Error("No valid fields to update")
+      );
+      const fakeId = 999;
+      const mockReq = { params: fakeId, body: { invalidField: true }};
+      await controller.genericUpdate(mockReq, mockRes);
+      expect(mockRes.status).toHaveBeenCalledWith(400);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'No valid fields to update' });
+    });
+  });
+  
 });
