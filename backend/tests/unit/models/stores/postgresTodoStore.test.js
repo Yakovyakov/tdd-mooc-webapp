@@ -139,6 +139,15 @@ describe('PostgresTodoStore', () => {
       
     });
 
+    test('can not update if not valid field', async () => {
+
+      const existenId = 1;
+      await expect(postgresTodoStore.update(existenId, { invalidFields: true }))
+      .rejects
+      .toThrow('No valid fields to update');
+
+      
+    });
   });
 
 });
