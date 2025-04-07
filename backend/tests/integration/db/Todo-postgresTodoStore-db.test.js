@@ -3,7 +3,7 @@ const { pool } = require('../../../src/config/db');
 const PostgresTodoStore = require('../../../src/models/stores/postgresTodoStore');
 const Todo  = require('../../../src/models/Todo');
 
-describe('TodoModel + PostgresTodoStore (Integración)', () => {
+describe('TodoModel + PostgresTodoStore (Integration test)', () => {
   let model;
   let store;
 
@@ -75,5 +75,75 @@ describe('TodoModel + PostgresTodoStore (Integración)', () => {
     
     expect(todos.length).toBe(0);
     expect(todos).toEqual([]);
+  });
+
+  describe('getById', () => {
+    test('can find a Todo in DB', async () => {
+    
+      let todos = await model.getAll();
+      
+      expect(todos.length).toBe(0);
+      expect(todos).toEqual([]);
+      // inject some data in DB
+      await pool.query(`
+        INSERT INTO todos (title, completed, archived) 
+        VALUES ('ToDo 1', false, false), ('ToDo 2', false, false)
+      `);
+
+      const query = await pool.query(`
+        SELECT id, title, completed, archived
+        FROM todos
+      `);
+      const todosAtStart = query.rows;
+      for (const todo of todosAtStart) {
+        const existenId = todo.id;
+
+        const result = await model.getById(existenId);
+        expect(result.id).toEqual(existenId);
+        expect(result.title).toEqual(todo.title);
+        expect(result.completed).toEqual(false);
+        expect(result).not.toHaveProperty('archived');
+      }
+      
+    });
+  
+    test('can not find a Todo in DB if it does not exist', async () => {
+    
+      let todos = await model.getAll();
+      
+      expect(todos.length).toBe(0);
+      expect(todos).toEqual([]);
+      // inject some data in DB
+      await pool.query(`
+        INSERT INTO todos (title, completed, archived) 
+        VALUES ('ToDo 1', false, false), ('ToDo 2', false, false)
+      `);
+      const nonExistenId = 999;
+      const result = await model.getById(nonExistenId);
+      expect(result).toEqual(null);      
+    });
+
+    test('can not find a Todo in DB if it has property archived = true', async () => {
+    
+
+      // inject some data in DB
+      await pool.query(`
+        INSERT INTO todos (title, completed, archived) 
+        VALUES ('ToDo 1', false, true), ('ToDo 2', false, true)
+      `);
+      const query = await pool.query(`
+        SELECT id, title, completed, archived
+        FROM todos
+      `);
+      const todosAtStart = query.rows;
+      for (const todo of todosAtStart) {
+        // exist Id but archived = true
+        const existenId = todo.id;
+
+        const result = await model.getById(existenId);
+        expect(result).toEqual(null);
+      }
+    });
+
   });
 });
