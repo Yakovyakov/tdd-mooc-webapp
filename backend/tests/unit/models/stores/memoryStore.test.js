@@ -88,9 +88,7 @@ describe('MemoryStore', () => {
         expect(result.title).toBe(todo.title);
         expect(result.completed).toBe(todo.completed);
         expect(result).not.toHaveProperty('archived');
-  
       }
-  
     });
 
     test('can not find a Todo if Todo does not exist', async () => {
@@ -105,8 +103,6 @@ describe('MemoryStore', () => {
       const nonExistenId = 999;
       const result = await store.getById(nonExistenId);
       expect(result).toBe(null);
-
-  
     });
 
     test('can not find a Todo if property archived is true', async () => {
@@ -121,11 +117,41 @@ describe('MemoryStore', () => {
       const existenId = 2;
       const result = await store.getById(existenId);
       expect(result).toBe(null);
-
-  
     });
-
-
   });
+
+  describe('MemoryStore - update', () =>{
+
+    test('can not update if not valid fields', async () => {
+      // inject some data
+      store.todos = [
+        {id: 1, title: 'ToDo 1', completed: false, archived: false},
+      ];
+
+      const existenId = 1;
+
+      await expect(store.update(existenId, { invalidFields: true }))
+        .rejects
+        .toThrow('No valid fields to update');
+    });
+  
+    test('can update completed field', async () => {
+      // inject some data
+      store.todos = [
+        {id: 1, title: 'ToDo 1', completed: false, archived: false},
+      ];
+
+      const existenId = 1;
+
+      const result = await store.update(existenId, { completed: true });
+
+      expect(result.id).toBe(1);
+      expect(result.title).toBe('ToDo 1');
+      expect(result.completed).toBe(true);
+      expect(result).not.toHaveProperty('archived');
+
+    });
+  });
+
 
 });
