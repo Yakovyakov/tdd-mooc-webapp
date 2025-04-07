@@ -43,4 +43,41 @@ describe('Todo Model Unit Tests (Memory Store)', () => {
     });
   });
 
+
+  describe('getById()', () => {
+    it('can find a Todo by Id', async () => {
+
+      const todo1 = await todoModel.create({ title: 'Todo 1' });
+      const todo2 = await todoModel.create({ title: 'Todo 2' });
+      const todo3 = await todoModel.create({ title: 'Todo 3' });
+
+      const todos = await todoModel.getAll();
+      expect(todos).toHaveLength(3);
+      expect(todos).toEqual(expect.arrayContaining([todo1, todo2, todo3 ]));
+      for (const todo of todos) {
+        const existenId = todo.id;
+        const result = await todoModel.getById(existenId);
+        expect(result.id).toBe(existenId);
+        expect(result.title).toBe(todo.title);
+        expect(result.completed).toBe(false);
+        expect(result).not.toHaveProperty('archived');
+      }
+    });
+
+    it('can not find a Todo if it does not exist', async () => {
+      const todo1 = await todoModel.create({ title: 'Todo 1' });
+      const todo2 = await todoModel.create({ title: 'Todo 2' });
+      const todo3 = await todoModel.create({ title: 'Todo 3' });
+
+      const todos = await todoModel.getAll();
+      expect(todos).toHaveLength(3);
+      expect(todos).toEqual(expect.arrayContaining([todo1, todo2, todo3 ]));
+
+      const notExistenId = 999;
+
+      const result = await todoModel.getById(notExistenId);
+      expect(result).toEqual(null);
+    });
+  });
+
 });
