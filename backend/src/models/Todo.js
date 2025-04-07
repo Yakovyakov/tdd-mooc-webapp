@@ -11,6 +11,10 @@ class Todo {
         title: todo.title.trim(),
       });
     }
+
+    async getById(id) {
+      return this.store.getById(id);
+    }
   
   
     async getAll() {
