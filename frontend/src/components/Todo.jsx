@@ -1,5 +1,5 @@
 import { useState } from 'react'
-const Todo = ({ todo, completeTodo, renameTodo }) => {
+const Todo = ({ todo, completeTodo, renameTodo, archiveTodo }) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(todo.title);
@@ -13,11 +13,16 @@ const Todo = ({ todo, completeTodo, renameTodo }) => {
     setIsEditing(false);
   }
 
+  const onClickArchive = () => {
+    archiveTodo(todo.id, { archived: true })
+    
+  }
+
   const doneInfo = (
     <>
       <span>This todo is done</span>
       <span>
-        <button > Archive </button>
+        <button onClick={onClickArchive}> Archive </button>
       </span>
     </>
   )
@@ -28,7 +33,7 @@ const Todo = ({ todo, completeTodo, renameTodo }) => {
         This todo is not done
       </span>
       <span>
-        <button > Archive </button>
+        <button onClick={onClickArchive}> Archive </button>
         <button onClick={onClickComplete}> Set as done </button>
       </span>
     </>
