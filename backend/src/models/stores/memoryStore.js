@@ -30,7 +30,7 @@ class MemoryStore {
     if (index === -1) return null;
 
     // only allowedFields
-    const allowedFields = ['completed'];
+    const allowedFields = ['completed', 'title'];
     const filteredUpdates = Object.keys(updates)
       .filter(key => allowedFields.includes(key))
       .reduce((obj, key) => {
