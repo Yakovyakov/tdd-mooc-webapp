@@ -65,7 +65,18 @@ describe('TodoController', () => {
       const mockTodo = { id: 1, title: 'Todo Test', completed: true };
       mockService.updateTodo.mockResolvedValue(mockTodo);
       const existenId = 1;
-      const mockReq = { params: 123, body: { completed: true }};
+      const mockReq = { params: 1, body: { completed: true }};
+      await controller.genericUpdate(mockReq, mockRes);
+
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith(mockTodo);
+    });
+
+    it('can update title field should return status code 200 and an updated ToDo', async () => {
+      const mockTodo = { id: 1, title: 'New title', completed: false };
+      mockService.updateTodo.mockResolvedValue(mockTodo);
+      const existenId = 1;
+      const mockReq = { params: 1, body: { title: 'New title' }};
       await controller.genericUpdate(mockReq, mockRes);
 
       expect(mockRes.status).toHaveBeenCalledWith(200);
