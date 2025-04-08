@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import Todo from './Todo'
@@ -94,7 +94,11 @@ describe('Todo component tests', () => {
       await user.type(input, "Edited")
       
       await user.click(screen.getByText(/save/i))
-      
+
+      await waitFor(() => {
+        expect(screen.queryByDisplayValue("Edited")).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: /rename/i })).toBeInTheDocument()
+      })
       expect(mockUpdate).toHaveBeenCalledWith(1, { title: "Edited" })
     })
   })
