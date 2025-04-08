@@ -50,7 +50,7 @@ class TodoController {
         return res.status(400).json({ error: 'No valid fields to update' });
       }
 
-      const updatedTodo = await this.service.updateTodo(id, { filteredUpdates });
+      const updatedTodo = await this.service.updateTodo(id, filteredUpdates );
       res.status(200).json(updatedTodo);
     } catch (error) {
       if (error.message === 'Todo not found') {
