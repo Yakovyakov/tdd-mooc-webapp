@@ -27,12 +27,17 @@ const TodoView = () => {
     refreshTodos()
   }
 
+  const renameTodo = async (id, updates) => {
+    const { _data } = await axios.patch(`/todos/${id}`, updates)
+    refreshTodos()
+  }
+
 
   return (
     <>
       <h1>Todos App</h1>
       <TodoForm createTodo={createTodo} />
-      <TodoList todos={todos} completeTodo={completeTodo} renameTodo={()=>null}/>
+      <TodoList todos={todos} completeTodo={completeTodo} renameTodo={renameTodo}/>
     </>
   )
 }
