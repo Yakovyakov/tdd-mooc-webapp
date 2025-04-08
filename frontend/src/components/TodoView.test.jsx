@@ -24,7 +24,6 @@ describe('TodoView component', () => {
       expect(axios.get).toHaveBeenCalledWith('/todos')
     })
     
-    
     expect(screen.getByText('ToDo 1')).toBeInTheDocument()
     expect(screen.getByText('ToDo 2')).toBeInTheDocument()
     
@@ -48,14 +47,45 @@ describe('TodoView component', () => {
     
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
-        '/todos', 
+        '/todos',
         { title: newTodo.title }
       )
     })
-    
     
     expect(await screen.findByText(newTodo.title)).toBeInTheDocument()
     expect(screen.getByText('This todo is not done')).toBeInTheDocument()
   })
 
+  test('can mark a Todo as completed', async () => {
+    const mockedGetData = [{ id: 1, title: "Test Todo", completed: false }]
+    const mockedUpdatedTodo = { id: 1, title: "Test Todo", completed: true }
+    
+    axios.get.mockResolvedValueOnce({ data: mockedGetData })
+    axios.get.mockResolvedValueOnce({ data: [mockedUpdatedTodo] })
+    axios.patch.mockResolvedValueOnce({ data: mockedUpdatedTodo })
+
+    render(<TodoView />)
+
+    await waitFor(() => {
+      expect(screen.getByText('Test Todo')).toBeInTheDocument()
+    })    
+    const button = screen.getByRole('button', { name: /set as done/i })
+    
+    fireEvent.click(button)
+    
+    await waitFor(() => {
+      expect(axios.patch).toHaveBeenCalledWith(
+        '/todos/1',
+        { completed: true }
+      )
+    })
+    
+    await waitFor(() => {
+      expect(axios.get).toHaveBeenCalledTimes(2)
+    })
+
+    expect(screen.getByText('Test Todo')).toBeInTheDocument()
+    expect(screen.getByText('This todo is done')).toBeInTheDocument()
+  })
+  
 })
