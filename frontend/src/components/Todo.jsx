@@ -15,6 +15,7 @@ const Todo = ({ todo }) => {
         This todo is not done
       </span>
       <span>
+        <button > Archive </button>
         <button > Set as done </button>
       </span>
     </>
@@ -22,7 +23,7 @@ const Todo = ({ todo }) => {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '70%', margin: 'auto' }}>
       <span>
-        {todo.title} 
+        {todo.title}
       </span>
       {todo.completed ? doneInfo : notDoneInfo}
     </div>
