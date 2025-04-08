@@ -34,7 +34,7 @@ class PostgresTodoStore {
 
   async update(id, updates) {
 
-    const allowedFields = ['completed'];
+    const allowedFields = ['completed', 'title'];
     const setClauses = [];
     const values = [];
     let paramIndex = 1;
