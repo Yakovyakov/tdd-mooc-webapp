@@ -37,7 +37,7 @@ const TodoView = () => {
     <>
       <h1>Todos App</h1>
       <TodoForm createTodo={createTodo} />
-      <TodoList todos={todos} completeTodo={completeTodo} renameTodo={renameTodo}/>
+      <TodoList todos={todos} completeTodo={completeTodo} renameTodo={renameTodo} archiveTodo={() => null}/>
     </>
   )
 }
