@@ -57,7 +57,29 @@ describe('API Routes (with Mocks)', () => {
       expect(response.status).toBe(200);
       expect(response.body).toEqual({ id: 1, title: 'Mocked Todo', completed: true });
     });
-  
+
+    test('PATCH can update title field, should return 200 with updated Todo', async () => {
+      mockService.updateTodo.mockResolvedValue({ id: 1, title: 'Mocked Todo', completed: true });
+      
+      const response = await request(app)
+        .patch('/todos/1')
+        .send({ title: 'Mocked Todo' });
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ id: 1, title: 'Mocked Todo', completed: true });
+    });
+
+    test('PATCH can update archived field, should return 200 with updated Todo', async () => {
+      mockService.updateTodo.mockResolvedValue({ id: 1, title: 'Mocked Todo', completed: true });
+      
+      const response = await request(app)
+        .patch('/todos/1')
+        .send({ archived: true });
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ id: 1, title: 'Mocked Todo', completed: true });
+    });
+
     test('PATCH if does not exist a Todo should return status code 404', async () => {
       mockService.updateTodo.mockRejectedValue(
         new Error("Todo not found")

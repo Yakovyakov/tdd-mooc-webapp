@@ -83,6 +83,17 @@ describe('TodoController', () => {
       expect(mockRes.json).toHaveBeenCalledWith(mockTodo);
     });
 
+    it('can update arhived field should return status code 200 and an updated ToDo', async () => {
+      const mockTodo = { id: 1, title: 'Todo Test', completed: false };
+      mockService.updateTodo.mockResolvedValue(mockTodo);
+      const existenId = 1;
+      const mockReq = { params: 1, body: { archived: true }};
+      await controller.genericUpdate(mockReq, mockRes);
+
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith(mockTodo);
+    });
+
     it('should return status code 404 if Todo not found', async () => {
       mockService.updateTodo.mockRejectedValue(
         new Error("Todo not found")

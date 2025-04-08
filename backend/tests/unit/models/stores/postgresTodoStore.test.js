@@ -152,6 +152,24 @@ describe('PostgresTodoStore', () => {
             
     });
 
+    test('can update archived field', async () => {
+      // mock return some data
+      const mockTodos = [{ id: 1, title: 'Todo Test', completed: true }]
+      ;
+      const existenId = 1;
+      // mock db.query
+      mockDb.query.mockResolvedValueOnce({
+        rows: mockTodos
+      });
+      
+      const result = await postgresTodoStore.update(existenId, { archived: true });
+      expect(result.id).toBe(1);
+      expect(result.title).toBe('Todo Test');
+      expect(result.completed).toBe(true);
+            
+    });
+
+
     test('can not update if not valid field', async () => {
 
       const existenId = 1;

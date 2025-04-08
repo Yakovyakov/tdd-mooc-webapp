@@ -95,6 +95,21 @@ describe('TodoService - Unit test', () => {
       let result = await service.updateTodo(1, { title: 'New title' });
       expect(result.title).toBe('New title');
     });
+
+    test('can update archived field', async () => {
+    
+      mockTodo = { id: 1, title: 'Original title', completed: true }
+      mockModel.getById.mockResolvedValue(mockModel);
+      mockModel.update.mockResolvedValue(mockTodo);
+      let result = await service.updateTodo(1, { archived: true });
+
+      // archived field is not return in response, so we can not check it
+      // but if updateTodo return a Todo thats means that operartion was succefully
+      
+      expect(result.title).toBe('Original title');
+      expect(result.completed).toBe(true);
+    });
+
   
     test('error if todo not found', async () => {
       const nonExistenId = 999;

@@ -168,6 +168,25 @@ describe('MemoryStore', () => {
       expect(result).not.toHaveProperty('archived');
 
     });
+
+    test('can update archived field', async () => {
+      // inject some data
+      store.todos = [
+        {id: 1, title: 'Original Title', completed: false, archived: false},
+      ];
+
+      const existenId = 1;
+
+      const result = await store.update(existenId, { archived: true });
+
+      expect(result.id).toBe(1);
+      expect(result.title).toBe('Original Title');
+      expect(result.completed).toBe(false);
+      expect(result).not.toHaveProperty('archived');
+      expect(store.todos[0].archived).toBe(true)
+
+    });
+
   });
 
 
