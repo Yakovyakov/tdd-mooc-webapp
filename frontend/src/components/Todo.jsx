@@ -1,5 +1,8 @@
 
-const Todo = ({ todo }) => {
+const Todo = ({ todo, completeTodo }) => {
+  const onClickComplete = () => {
+    completeTodo(todo.id, { completed: true })
+  }
   const doneInfo = (
     <>
       <span>This todo is done</span>
@@ -16,7 +19,7 @@ const Todo = ({ todo }) => {
       </span>
       <span>
         <button > Archive </button>
-        <button > Set as done </button>
+        <button onClick={onClickComplete}> Set as done </button>
       </span>
     </>
   )
