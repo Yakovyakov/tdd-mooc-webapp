@@ -101,5 +101,18 @@ describe('Todo component tests', () => {
       })
       expect(mockUpdate).toHaveBeenCalledWith(1, { title: "Edited" })
     })
+
+    test('can archived a Todo', async () => {
+      const mockUpdate = vi.fn()
+      const user = userEvent.setup()
+      const todo = { id: 1, title: "Todo Test", completed: false }
+      
+      render(<Todo todo={todo} archiveTodo={mockUpdate} />)
+
+      await user.click(screen.getByRole('button', { name: /archive/i }))
+
+      expect(mockUpdate).toHaveBeenCalledWith(1, { archived: true })
+    })
+
   })
 })
