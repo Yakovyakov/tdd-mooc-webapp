@@ -93,6 +93,20 @@ describe('Todo Model Unit Tests (with Memory Store)', () => {
       expect(result).not.toHaveProperty('archived');
 
     });
+
+    it('can update title field', async () => {
+      const todo1 = await todoModel.create({ title: 'Original title' });
+      expect(todo1.completed).toEqual(false);
+
+      const existenId = 1;
+      const result = await todoModel.update(existenId, { title: 'New title' });
+      expect(result.completed).toEqual(false);
+      expect(result.id).toEqual(existenId);
+      expect(result.title).toEqual('New title');
+      expect(result).not.toHaveProperty('archived');
+
+    });
+
     test('can not update if not valid fields', async () => {
       const todo1 = await todoModel.create({ title: 'Todo 1' });
       expect(todo1.completed).toEqual(false);
