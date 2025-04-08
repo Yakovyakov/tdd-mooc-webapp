@@ -86,6 +86,15 @@ describe('TodoService - Unit test', () => {
       let result = await service.updateTodo(1, { completed: true });
       expect(result.completed).toBe(true);
     });
+
+    test('can update title field', async () => {
+    
+      mockTodo = { id: 1, title: 'Original title', completed: false }
+      mockModel.getById.mockResolvedValue(mockModel);
+      mockModel.update.mockResolvedValue({ ...mockTodo, title: 'New title' });
+      let result = await service.updateTodo(1, { title: 'New title' });
+      expect(result.title).toBe('New title');
+    });
   
     test('error if todo not found', async () => {
       const nonExistenId = 999;
