@@ -1,7 +1,7 @@
 
 import React from 'react'
 import Todo from './Todo'
-const TodoList = ({ todos }) => {
+const TodoList = ({ todos, completeTodo }) => {
 
   return (
     <>
@@ -9,7 +9,7 @@ const TodoList = ({ todos }) => {
         todos.map(todo => (
             <React.Fragment key={todo.id}>
               <hr key={`separator-${todo.id}`} />
-              <Todo todo={todo} />
+              <Todo todo={todo} completeTodo={completeTodo} />
             </React.Fragment>
         ))
       }
