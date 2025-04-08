@@ -80,5 +80,22 @@ describe('Todo component tests', () => {
       expect(completeTodo.mock.calls[0][1]).toStrictEqual({ completed: true })      
     })
     
+    test('can rename a Todo', async () => {
+      const mockUpdate = vi.fn()
+      const user = userEvent.setup()
+      const todo = { id: 1, title: "Original", completed: false }
+      
+      render(<Todo todo={todo} renameTodo={mockUpdate} />)
+      
+      await user.click(screen.getByText(/rename/i))
+      
+      const input = screen.getByDisplayValue("Original")
+      await user.clear(input);
+      await user.type(input, "Edited")
+      
+      await user.click(screen.getByText(/save/i))
+      
+      expect(mockUpdate).toHaveBeenCalledWith(1, { title: "Edited" })
+    })
   })
 })
