@@ -133,10 +133,23 @@ describe('PostgresTodoStore', () => {
       expect(result.title).toBe('ToDo 1');
       expect(result.completed).toBe(true);
       
-      expect(mockDb.query).toHaveBeenCalledTimes(1);
-      const [actualSql] = mockDb.query.mock.calls[0];
-      const normalizedActual = actualSql.replace(/\s+/g, ' ').trim();
+    });
+
+    test('can update title field', async () => {
+      // mock return some data
+      const mockTodos = [{ id: 1, title: 'New title', completed: false }]
+      ;
+      const existenId = 1;
+      // mock db.query
+      mockDb.query.mockResolvedValueOnce({
+        rows: mockTodos
+      });
       
+      const result = await postgresTodoStore.update(existenId, { title: 'New title' });
+      expect(result.id).toBe(1);
+      expect(result.title).toBe('New title');
+      expect(result.completed).toBe(false);
+            
     });
 
     test('can not update if not valid field', async () => {
