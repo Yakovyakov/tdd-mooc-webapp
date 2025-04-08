@@ -124,4 +124,39 @@ describe('TodoView component', () => {
     
   })
 
+  test('can archive a Todo', async () => {
+    const mockedGetData = [{ id: 1, title: "Original", completed: false }]
+    const mockedUpdatedTodo = { id: 1, title: "Original", completed: false }
+    
+    axios.get.mockResolvedValueOnce({ data: mockedGetData })
+    axios.get.mockResolvedValueOnce({ data: [] })
+    axios.patch.mockResolvedValueOnce({ data: mockedUpdatedTodo })
+
+    render(<TodoView />)
+
+    await waitFor(() => {
+      expect(screen.getByText('Original')).toBeInTheDocument()
+    })    
+    const button = screen.getByRole('button', { name: /archive/i })
+    
+    fireEvent.click(button)
+
+
+    await waitFor(() => {
+      expect(axios.patch).toHaveBeenCalledWith(
+        '/todos/1',
+        { archived: true }
+      )
+    })
+    
+    await waitFor(() => {
+      expect(axios.get).toHaveBeenCalledTimes(2)
+    })
+    
+    const button1 = screen.queryByRole('button', { name: /archive/i })
+    expect(button1).toBeNull()
+    
+  })
+
+
 })
