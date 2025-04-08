@@ -10,6 +10,7 @@ const Todo = ({ todo, completeTodo, renameTodo }) => {
 
   const onClickSave = () => {
     renameTodo(todo.id, { title: editedTitle })
+    setIsEditing(false);
   }
 
   const doneInfo = (
