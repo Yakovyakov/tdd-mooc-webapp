@@ -88,4 +88,40 @@ describe('TodoView component', () => {
     expect(screen.getByText('This todo is done')).toBeInTheDocument()
   })
   
+  test('can rename a Todo', async () => {
+    const mockedGetData = [{ id: 1, title: "Original", completed: false }]
+    const mockedUpdatedTodo = { id: 1, title: "Edited", completed: false }
+    
+    axios.get.mockResolvedValueOnce({ data: mockedGetData })
+    axios.get.mockResolvedValueOnce({ data: [mockedUpdatedTodo] })
+    axios.patch.mockResolvedValueOnce({ data: mockedUpdatedTodo })
+
+    render(<TodoView />)
+
+    await waitFor(() => {
+      expect(screen.getByText('Original')).toBeInTheDocument()
+    })    
+    const button = screen.getByRole('button', { name: /rename/i })
+    
+    fireEvent.click(button)
+
+    const input = screen.getByDisplayValue("Original")
+    
+    fireEvent.change(input, { target: { value: 'Edited' } });
+    fireEvent.click(screen.getByRole('button', { name: /save/i }))
+    await waitFor(() => {
+      expect(axios.patch).toHaveBeenCalledWith(
+        '/todos/1',
+        { title: 'Edited' }
+      )
+    })
+    
+    await waitFor(() => {
+      expect(axios.get).toHaveBeenCalledTimes(2)
+    })
+
+    expect(screen.getByText('Edited')).toBeInTheDocument()
+    
+  })
+
 })
