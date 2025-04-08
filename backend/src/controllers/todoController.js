@@ -32,7 +32,7 @@ class TodoController {
       // only allowedFields
       const { id } = req.params;
       const updates = req.body;
-      const allowedFields = ['completed', 'title'];
+      const allowedFields = ['completed', 'title', 'archived'];
       const filteredUpdates = Object.keys(updates)
         .filter(key => allowedFields.includes(key))
         .reduce((obj, key) => {
