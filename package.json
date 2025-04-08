@@ -15,9 +15,6 @@
   "scripts": {
     "format": "prettier --write .",
     "test:backend": "cd backend && npm test",
-    "test:frontend": "cd frontend && npm test",
-    "tcr:backend": "npm run test:backend && git add backend/ && git commit -m 'TCR: backend' || (git restore --staged backend/ && git checkout -- backend/ && git clean -fd backend/)",
-    "tcr:frontend": "npm run test:frontend && git add frontend/ && git commit -m 'TCR: frontend' || (git restore --staged frontend/ && git checkout -- frontend/ && git clean -fd frontend/)",
-    "tcr:all": "echo \"1\""
+    "test:frontend": "cd frontend && npm test"
   }
 }

@@ -22,7 +22,7 @@ services:
     mem_reservation: 100m
     mem_limit: 200m
     ports:
-      - "127.0.0.1:8081:80"
+      - "127.0.0.1:8081:4000"
     depends_on:
       - db
 
