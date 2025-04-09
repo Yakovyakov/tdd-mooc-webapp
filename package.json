@@ -16,6 +16,7 @@
     "format": "prettier --write .",
     "test:backend": "cd backend && npm test",
     "test:frontend": "cd frontend && npm test",
-    "e2e": "cd e2e && npm"
+    "test:e2e": "cd e2e && npm run test",
+    "test:all": "npm run test:frontend && npm run test:backend && npm run test:e2e"
   }
 }
