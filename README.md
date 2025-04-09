@@ -45,3 +45,33 @@ Destroy all containers and data
 Run end-to-end tests
 
     ./end-to-end-test.sh
+
+## Todo App
+
+Run frontend tests:
+
+    npm run test:frontend
+
+To run integration tests on the backend, the container with the database service must have been built and launched.
+
+Run backend tests:
+
+    # Start the database
+    docker compose -f docker-compose.yaml up -d db
+    # run tests
+    npm run test:backend
+
+To run end-to-end tests, all containers must be built and launched. To do this, run:
+
+    # Destroy all containers and data
+    docker compose -f docker-compose.yaml down -v
+    # Build and start all containers
+    docker compose -f docker-compose.yaml up -d --build
+
+Run end-to-end test:s
+
+    npm run test:e2e
+
+Run all tests:
+
+    npm run test:all
