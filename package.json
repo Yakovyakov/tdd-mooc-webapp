@@ -15,6 +15,7 @@
   "scripts": {
     "format": "prettier --write .",
     "test:backend": "cd backend && npm test",
-    "test:frontend": "cd frontend && npm test"
+    "test:frontend": "cd frontend && npm test",
+    "e2e": "cd e2e && npm"
   }
 }
